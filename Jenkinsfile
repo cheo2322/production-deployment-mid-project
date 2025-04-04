@@ -16,13 +16,11 @@ pipeline {
                 '''
             }
         }
-        stage('Run Docker Container') {
+        stage('Training') {
             steps {
-                script {
-                    sh 'docker stop movies-recomendation-container || true && docker rm movies-recomendation-container || true'
-                    
-                    sh 'docker run --name movies-recomendation-container -d movies-recomendation'
-                }
+                sh '''#!/bin/bash
+                python models/train_models.py
+                '''
             }
         }
     }
