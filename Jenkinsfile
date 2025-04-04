@@ -1,13 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Verify Docker') {
-            steps {
-                script {
-                    sh 'docker version'
-                }
-            }
-        }
         stage('Checkout Code') {
             steps {
                 checkout scm
@@ -15,9 +8,9 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh 'docker build -t movies-recomendation .'
-                }
+                sh '''#!/bin/bash
+                docker build -t movies-recomendation .
+                '''
             }
         }
         stage('Run Docker Container') {
@@ -27,13 +20,6 @@ pipeline {
                     
                     sh 'docker run --name movies-recomendation-container -d movies-recomendation'
                 }
-            }
-        }
-    }
-    post {
-        always {
-            script {
-                sh 'docker system prune -f || true'
             }
         }
     }
