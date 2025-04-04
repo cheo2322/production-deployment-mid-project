@@ -9,7 +9,7 @@ pipeline {
         stage('Setup enviroment') {
             steps {
                 sh '''#!/bin/bash
-                source D:\\Maestria\\Production\\project\\.venv\\Scripts\\activate
+                source D:/Maestria/Production/project/.venv/Scripts/activate
                 '''
             }
         }
