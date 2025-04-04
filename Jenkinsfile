@@ -6,6 +6,16 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Setup enviroment') {
+            steps {
+                sh '''#!/bin/bash
+                sudo apt-get update -y
+                sudo apt-get install docker.io -y
+                sudo systemctl start docker
+                sudo systemctl enable docker
+                '''
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 sh '''#!/bin/bash
