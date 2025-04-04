@@ -6,10 +6,11 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build Docker Image') {
+        stage('Setup and Run') {
             steps {
-                sh '''#!/bin/bash
-                python -m pip install -r requirements.txt
+                sh '''
+                source /var/jenkins_home/.venv/bin/activate
+                python --version
                 '''
             }
         }
