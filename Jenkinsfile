@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Setup and Run') {
             steps {
-                sh '''
+                sh '''#!/bin/bash
                 source /var/jenkins_home/.venv/bin/activate
                 python --version
                 '''
