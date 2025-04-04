@@ -22,7 +22,8 @@ pipeline {
                 source /var/jenkins_home/.venv/bin/activate
                 pwd
                 ls -l
-                python models/train_models.py
+                cd models
+                python train_models.py
                 '''
             }
         }
