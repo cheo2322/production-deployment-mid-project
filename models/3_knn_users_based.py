@@ -2,33 +2,37 @@ import pandas as pd
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import MinMaxScaler
 import joblib
+from sklearn.model_selection import train_test_split
+import numpy as np
+from dotenv import load_dotenv
+import os
 
-# Cargar los datos
-movies = pd.read_csv('./data/movie.csv')
-ratings = pd.read_csv('./data/rating.csv')
+load_dotenv()
 
-# Filtrar usuarios con ID entre 1 y 1000
+path = os.getenv('DATA_PATH')
+
+movies = pd.read_csv(f"{path}/movie.csv")
+ratings = pd.read_csv(f"{path}/rating.csv")
+
 filtered_ratings = ratings[ratings['userId'].between(1, 20000)]
 
 scaler = MinMaxScaler()
+filtered_ratings.loc[:, 'rating'] = scaler.fit_transform(filtered_ratings[['rating']])
 
-# Aplicar normalización a los datos filtrados
-filtered_ratings['rating'] = scaler.fit_transform(filtered_ratings[['rating']])
-
-# Verificar el resultado
-filtered_ratings.head()
-
-# Unir los datos con el archivo movies para obtener los títulos
 ratings_with_titles = filtered_ratings.merge(movies, on='movieId')
 
-# Crear matriz de usuario-película con títulos
 user_movie_matrix = ratings_with_titles.pivot_table(
     index='userId', columns='title', values='rating'
 ).fillna(0)
 
-# Entrenar el modelo KNN
-knn = NearestNeighbors(metric='cosine', algorithm='brute')
-knn.fit(user_movie_matrix.values)
+train_data, test_data = train_test_split(
+    user_movie_matrix.values, test_size=0.2, random_state=42
+)
 
-joblib.dump(knn, './models/knn_model.pkl')
-user_movie_matrix.to_pickle('./models/user_movie_matrix.pkl')
+knn = NearestNeighbors(metric='cosine', algorithm='brute')
+knn.fit(train_data)
+
+joblib.dump(knn, f"{path}/models/knn_model.pkl")
+user_movie_matrix.to_pickle(f"{path}/models/user_movie_matrix.pkl")
+np.save(f"{path}/models/train_data.npy", train_data)
+np.save(f"{path}/models/test_data.npy", test_data)
