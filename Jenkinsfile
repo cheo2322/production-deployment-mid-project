@@ -9,10 +9,7 @@ pipeline {
         stage('Setup enviroment') {
             steps {
                 sh '''#!/bin/bash
-                apt-get update -y
-                apt-get install docker.io -y
-                systemctl start docker
-                systemctl enable docker
+                source D:\\Maestria\\Production\\project\\.venv\\Scripts\\activate
                 '''
             }
         }
