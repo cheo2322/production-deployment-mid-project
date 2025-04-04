@@ -6,17 +6,10 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Setup enviroment') {
-            steps {
-                sh '''#!/bin/bash
-                source D:/Maestria/Production/project/.venv/Scripts/activate
-                '''
-            }
-        }
         stage('Build Docker Image') {
             steps {
                 sh '''#!/bin/bash
-                docker build -t movies-recomendation .
+                pip install -r requirements.txt
                 '''
             }
         }
