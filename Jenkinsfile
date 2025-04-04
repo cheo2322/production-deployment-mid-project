@@ -6,11 +6,13 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Setup and Run') {
+        stage('Setup') {
             steps {
                 sh '''#!/bin/bash
                 source /var/jenkins_home/.venv/bin/activate
                 python --version
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
                 '''
             }
         }
