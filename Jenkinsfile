@@ -1,6 +1,13 @@
 pipeline {
     agent any
     stages {
+        stage('Verify Docker') {
+            steps {
+                script {
+                    sh 'docker version'
+                }
+            }
+        }
         stage('Checkout Code') {
             steps {
                 checkout scm
