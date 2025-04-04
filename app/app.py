@@ -1,17 +1,11 @@
 from flask import Flask, request, jsonify
 import joblib
 import pandas as pd
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-path = os.getenv('DATA_PATH')
 
 app = Flask(__name__)
 
-knn = joblib.load(f"{path}/models/knn_model.pkl")
-user_movie_matrix = pd.read_pickle(f"{path}/models/user_movie_matrix.pkl")
+knn = joblib.load(f"models/knn_model.pkl")
+user_movie_matrix = pd.read_pickle(f"models/user_movie_matrix.pkl")
 
 def get_user_recommendations(user_id, k_neighbors=5, top_n=20):
     if user_id not in user_movie_matrix.index:

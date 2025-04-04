@@ -4,15 +4,9 @@ from sklearn.preprocessing import MinMaxScaler
 import joblib
 from sklearn.model_selection import train_test_split
 import numpy as np
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
-
-path = os.getenv('DATA_PATH')
-
-movies = pd.read_csv(f"{path}/movie.csv")
-ratings = pd.read_csv(f"{path}/rating.csv")
+movies = pd.read_csv(f"data/movie.csv")
+ratings = pd.read_csv(f"data/rating.csv")
 
 filtered_ratings = ratings[ratings['userId'].between(1, 20000)]
 
@@ -32,7 +26,7 @@ train_data, test_data = train_test_split(
 knn = NearestNeighbors(metric='cosine', algorithm='brute')
 knn.fit(train_data)
 
-joblib.dump(knn, f"{path}/models/knn_model.pkl")
-user_movie_matrix.to_pickle(f"{path}/models/user_movie_matrix.pkl")
-np.save(f"{path}/models/train_data.npy", train_data)
-np.save(f"{path}/models/test_data.npy", test_data)
+joblib.dump(knn, f"models/knn_model.pkl")
+user_movie_matrix.to_pickle(f"models/user_movie_matrix.pkl")
+np.save(f"models/train_data.npy", train_data)
+np.save(f"models/test_data.npy", test_data)

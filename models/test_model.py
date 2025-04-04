@@ -1,12 +1,6 @@
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import numpy as np
 import joblib
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-path = os.getenv('DATA_PATH')
 
 def test_model(knn, train_data, test_data):
     predictions = []
@@ -17,9 +11,9 @@ def test_model(knn, train_data, test_data):
         predictions.append(prediction)
     return np.array(predictions)
 
-knn = joblib.load(f"{path}/models/knn_model.pkl")
-train_data = np.load(f"{path}/models/train_data.npy")
-test_data = np.load(f"{path}/models/test_data.npy")
+knn = joblib.load(f"models/knn_model.pkl")
+train_data = np.load(f"models/train_data.npy")
+test_data = np.load(f"models/test_data.npy")
 predictions = test_model(knn, train_data, test_data)
 
 mae = mean_absolute_error(test_data, predictions)
