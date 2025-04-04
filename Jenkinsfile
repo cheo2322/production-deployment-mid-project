@@ -19,6 +19,7 @@ pipeline {
         stage('Training') {
             steps {
                 sh '''#!/bin/bash
+                source /var/jenkins_home/.venv/bin/activate
                 python models/train_models.py
                 '''
             }
