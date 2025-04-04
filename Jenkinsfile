@@ -20,10 +20,7 @@ pipeline {
             steps {
                 sh '''#!/bin/bash
                 source /var/jenkins_home/.venv/bin/activate
-                pwd
-                ls -l
-                cd models
-                python train_models.py
+                python models/train_model.py
                 '''
             }
         }
