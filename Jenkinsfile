@@ -9,10 +9,10 @@ pipeline {
         stage('Setup enviroment') {
             steps {
                 sh '''#!/bin/bash
-                sudo apt-get update -y
-                sudo apt-get install docker.io -y
-                sudo systemctl start docker
-                sudo systemctl enable docker
+                apt-get update -y
+                apt-get install docker.io -y
+                systemctl start docker
+                systemctl enable docker
                 '''
             }
         }
