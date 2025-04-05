@@ -13,6 +13,18 @@ pipeline {
                 }
             }
         }
+        stage('Unit testing') {
+            steps {
+                script {
+                    sh '''#!/bin/bash
+                    echo "Activating virtual environment..."
+                    source $VENV_PATH/bin/activate
+                    echo "Running unit tests..."
+                    python3 -m unittest tests/test_app.py
+                    '''
+                }
+            }
+        }
         stage('Run Docker Container') {
             steps {
                 script {
