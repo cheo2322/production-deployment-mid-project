@@ -7,7 +7,6 @@ pipeline {
                     sh '''#!/bin/bash
                     echo "Setting up the environment..."
                     python3 -m pip install -r requirements.txt
-                    python3 scripts/setup.py
                     '''
                 }
             }
