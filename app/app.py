@@ -1,12 +1,6 @@
 from flask import Flask, request, jsonify
 import joblib
 import pandas as pd
-from kafka import KafkaProducer
-
-producer = KafkaProducer(
-    bootstrap_servers='kafka:9092',
-    value_serializer=lambda v: v.encode('utf-8')
-)
 
 def create_app():
     app = Flask(__name__)
@@ -56,21 +50,6 @@ def create_app():
             return jsonify({'user_id': str(random_user_id), 'recommendations': recommended_titles})
         except Exception as e:
             return jsonify({'error': str(e)})
-        
-    @app.route('/recommendations', methods=['POST'])
-    def recommendations_post():
-        try:
-            data = request.get_json()
-
-            # Here the input data should be added to database
-
-            message = f"{data.get('userId')}, {data.get('movieId')}, {data.get('rating')}"
-            producer.send('recommendations', value=message)
-            producer.flush()
-            
-            return jsonify({"status": "Message sent", "message": message})
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
 
     return app
 
