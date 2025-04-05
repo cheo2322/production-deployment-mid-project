@@ -1,19 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Release Port') {
-            steps {
-                script {
-                    sh '''#!/bin/bash
-                    echo "Checking if port 5000 is in use..."
-                    if lsof -i :5000; then
-                        echo "Stopping process using port 5000..."
-                        kill -9 $(lsof -t -i :5000)
-                    fi
-                    '''
-                }
-            }
-        }
         stage('Training Model') {
             steps {
                 script {
@@ -30,6 +17,9 @@ pipeline {
             steps {
                 script {
                     sh '''#!/bin/bash
+                    echo "Remove existing Docker container..."
+                    docker stop final-project || true
+                    docker rm final-project || true
                     echo "Building Docker image..."
                     docker build -t flask-app .
                     echo "Running Docker container..."
