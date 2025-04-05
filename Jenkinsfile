@@ -19,10 +19,18 @@ pipeline {
                     sh '''#!/bin/bash
                     echo "Activating virtual environment..."
                     source $VENV_PATH/bin/activate
-                    echo "Running unit tests..."
-                    python3 -m unittest tests/test_app.py
+                    echo "Running unit tests with coverage..."
+                    coverage run -m unittest discover tests
+                    echo "Generating coverage report..."
+                    coverage xml -o coverage.xml
                     '''
                 }
+            }
+        }
+
+        stage('Publish coverage report') {
+            steps {
+                coverageTool reportFile: 'coverage.xml'
             }
         }
         stage('Run Docker Container') {
