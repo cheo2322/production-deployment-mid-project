@@ -63,6 +63,8 @@ def create_app():
 
             message = f"{data.get('userId')}, {data.get('movieId')}, {data.get('rating')}"
             producer.send('recommendations', value=message)
+            producer.flush()
+            producer.close()
             
             return jsonify({"status": "Message sent", "message": message}), 200
             

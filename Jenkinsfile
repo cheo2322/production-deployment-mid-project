@@ -45,6 +45,7 @@ pipeline {
                     docker build -t flask-app .
                     echo "Running Docker container..."
                     docker run -d -p 5000:5000 --name final-project flask-app
+                    docker network connect kafka-network final-project
                     '''
                 }
             }
