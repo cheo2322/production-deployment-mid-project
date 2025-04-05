@@ -3,7 +3,10 @@ import joblib
 import pandas as pd
 from kafka import KafkaProducer
 
-producer = KafkaProducer(bootstrap_servers='kafka:9092')
+producer = KafkaProducer(
+    bootstrap_servers='kafka:9092',
+    value_serializer=lambda v: v.encode('utf-8')
+)
 
 def create_app():
     app = Flask(__name__)
@@ -64,10 +67,8 @@ def create_app():
             message = f"{data.get('userId')}, {data.get('movieId')}, {data.get('rating')}"
             producer.send('recommendations', value=message)
             producer.flush()
-            producer.close()
             
-            return jsonify({"status": "Message sent", "message": message}), 200
-            
+            return jsonify({"status": "Message sent", "message": message})
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
