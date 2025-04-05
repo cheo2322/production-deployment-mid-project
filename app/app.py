@@ -50,6 +50,15 @@ def create_app():
             return jsonify({'user_id': str(random_user_id), 'recommendations': recommended_titles})
         except Exception as e:
             return jsonify({'error': str(e)})
+        
+    @app.route('/recommendations', methods=['POST'])
+    def recommendations_post():
+        try:
+            data = request.get_json()
+            print(data)
+            
+        except Exception as e:
+            return jsonify({'error': str(e)})
 
     return app
 
