@@ -22,15 +22,15 @@ pipeline {
                     source $VENV_PATH/bin/activate
                     echo "Running unit tests with coverage..."
                     coverage run -m unittest discover tests
-                    echo "Generating coverage report..."
+                    echo "Generating XML coverage report..."
                     coverage xml -o coverage.xml
                     '''
                 }
             }
         }
-        stage('Archive coverage report') {
+        stage('Publish coverage report') {
             steps {
-                archiveArtifacts artifacts: 'coverage.xml', allowEmptyArchive: true
+                recordCoverage tools: [[pattern: 'coverage.xml']]
             }
         }
         stage('Run Docker Container') {
