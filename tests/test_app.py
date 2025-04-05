@@ -17,6 +17,17 @@ class TestFlaskApp(unittest.TestCase):
         response = self.client.get('/recommendations/999?k_neighbors=5&top_n=20')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json.get('recommendations'), [])
+    
+    def test_random_recommendations(self):
+        response = self.client.get('/recommendations/random')
+        
+        self.assertEqual(response.status_code, 200)
+        
+        self.assertIn('user_id', response.json)
+        self.assertIn('recommendations', response.json)
+        
+        self.assertIsInstance(response.json['recommendations'], list)
+        self.assertGreater(len(response.json['recommendations']), 0, "Empty list.")
 
 if __name__ == '__main__':
     unittest.main()
