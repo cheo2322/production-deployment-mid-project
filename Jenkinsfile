@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     sh '''#!/bin/bash
-                    echo "Activating virtual environment..."
+                    echo "Activating virtual environment in Python..."
                     source $VENV_PATH/bin/activate
                     echo "Running unit tests with coverage..."
                     coverage run -m unittest discover tests
