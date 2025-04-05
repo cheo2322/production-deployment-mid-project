@@ -38,7 +38,7 @@ def create_app():
         except Exception as e:
             return jsonify({'error': str(e)})
         
-    @app.route('/random', methods=['GET'])
+    @app.route('/recommendations/random', methods=['GET'])
     def random_recommendations():
         try:
             random_user_id = user_movie_matrix.sample(1).index[0]
@@ -47,7 +47,7 @@ def create_app():
 
             recommended_titles = get_user_recommendations(random_user_id, k_neighbors=k_neighbors, top_n=top_n)
 
-            return jsonify({'user_id': random_user_id, 'recommendations': recommended_titles})
+            return jsonify({'user_id': str(random_user_id), 'recommendations': recommended_titles})
         except Exception as e:
             return jsonify({'error': str(e)})
 
