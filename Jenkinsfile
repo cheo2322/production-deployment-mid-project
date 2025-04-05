@@ -7,6 +7,7 @@ pipeline {
                     sh '''#!/bin/bash
                     echo "Activating virtual environment..."
                     source $VENV_PATH/bin/activate
+                    pip install -r requirements.txt
                     echo "Training model..."
                     python3 models/train_model.py
                     '''
