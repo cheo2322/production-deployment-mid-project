@@ -28,6 +28,11 @@ pipeline {
                 }
             }
         }
+        stage('Archive coverage report') {
+            steps {
+                archiveArtifacts artifacts: 'coverage.xml', allowEmptyArchive: true
+            }
+        }
         stage('Run Docker Container') {
             steps {
                 script {
