@@ -5,8 +5,10 @@ pipeline {
             steps {
                 script {
                     sh '''#!/bin/bash
-                    echo "Setting up the environment..."
-                    python3 -m pip install -r requirements.txt
+                    echo "Activating virtual environment..."
+                    source $VENV_PATH/bin/activate
+                    echo "Installing dependencies..."
+                    pip install -r requirements.txt
                     '''
                 }
             }
@@ -15,6 +17,8 @@ pipeline {
             steps {
                 script {
                     sh '''#!/bin/bash
+                    echo "Activating virtual environment..."
+                    source $VENV_PATH/bin/activate
                     echo "Training model..."
                     python3 models/train_model.py
                     '''
@@ -26,11 +30,12 @@ pipeline {
                 script {
                     sh '''#!/bin/bash
                     echo "Building Docker image..."
-                    docker build -t my-app .
-                    docker run -d -p 5000:5000 my-app
+                    docker build -t flask-app .
+                    echo "Running Docker container..."
+                    docker run -d -p 5000:5000 flask-app
                     '''
                 }
             }
         }
     }
-} 
+}
