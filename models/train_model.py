@@ -8,7 +8,7 @@ import numpy as np
 movies = pd.read_csv(f"data/movie.csv")
 ratings = pd.read_csv(f"data/rating.csv")
 
-filtered_ratings = ratings[ratings['userId'].between(1, 20000)]
+filtered_ratings = ratings[ratings['userId']]
 
 scaler = MinMaxScaler()
 filtered_ratings.loc[:, 'rating'] = scaler.fit_transform(filtered_ratings[['rating']])
@@ -20,7 +20,7 @@ user_movie_matrix = ratings_with_titles.pivot_table(
 ).fillna(0)
 
 train_data, test_data = train_test_split(
-    user_movie_matrix.values, test_size=0.05, random_state=42
+    user_movie_matrix.values, test_size=0.2, random_state=42
 )
 
 knn = NearestNeighbors(metric='cosine', algorithm='brute')

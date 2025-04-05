@@ -21,21 +21,3 @@ rmse = np.sqrt(mean_squared_error(test_data, predictions))
 
 print(f"Mean Absolute Error (MAE): {mae:.4f}")
 print(f"Root Mean Square Error (RMSE): {rmse:.4f}")
-
-def precision_recall(predictions, test_data, threshold=0.5):
-    precision = []
-    recall = []
-    for pred, true in zip(predictions, test_data):
-        pred_binary = (pred >= threshold).astype(int)
-        true_binary = (true >= threshold).astype(int)
-        tp = np.sum(pred_binary * true_binary)
-        fp = np.sum(pred_binary * (1 - true_binary))
-        fn = np.sum((1 - pred_binary) * true_binary)
-        precision.append(tp / (tp + fp) if (tp + fp) > 0 else 0)
-        recall.append(tp / (tp + fn) if (tp + fn) > 0 else 0)
-    return np.mean(precision), np.mean(recall)
-
-precision, recall = precision_recall(predictions, test_data)
-
-print(f"Precision: {precision:.4f}")
-print(f"Recall: {recall:.4f}")
