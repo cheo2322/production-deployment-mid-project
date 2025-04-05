@@ -38,9 +38,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''#!/bin/bash
-                source /var/jenkins_home/.venv/bin/activate
-                python app/app.py
-                deactivate
+                docker build -t flask-app .
+                docker run -d -p 5001:5001 flask-app
                 '''
             }
         }
