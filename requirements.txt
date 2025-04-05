@@ -5,3 +5,4 @@ flask
 joblib
 coverage
 kafka-python
+prometheus_client
