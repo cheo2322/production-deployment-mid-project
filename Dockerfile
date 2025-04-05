@@ -6,4 +6,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "app/app.py", "--host=0.0.0.0", "--port=5001"]
+CMD ["python", "app/app.py"]

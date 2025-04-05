@@ -1,14 +1,15 @@
 pipeline {
     agent any
     stages {
-        stage('Prepare Environment') {
+        stage('Release Port') {
             steps {
                 script {
                     sh '''#!/bin/bash
-                    echo "Activating virtual environment..."
-                    source $VENV_PATH/bin/activate
-                    echo "Installing dependencies..."
-                    pip install -r requirements.txt
+                    echo "Checking if port 5000 is in use..."
+                    if lsof -i :5000; then
+                        echo "Stopping process using port 5000..."
+                        kill -9 $(lsof -t -i :5000)
+                    fi
                     '''
                 }
             }
