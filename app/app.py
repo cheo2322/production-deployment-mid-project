@@ -3,10 +3,7 @@ import joblib
 import pandas as pd
 from kafka import KafkaProducer
 
-producer = KafkaProducer(
-    bootstrap_servers='localhost:9092',
-    value_serializer=lambda v: v.encode('utf-8')
-)
+producer = KafkaProducer(bootstrap_servers='kafka:9092')
 
 def create_app():
     app = Flask(__name__)
