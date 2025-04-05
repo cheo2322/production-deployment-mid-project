@@ -38,5 +38,17 @@ pipeline {
                 }
             }
         }
+        stage('Testing Model') {
+            steps {
+                script {
+                    sh '''#!/bin/bash
+                    echo "Activating virtual environment..."
+                    source $VENV_PATH/bin/activate
+                    echo "Testing model..."
+                    python3 models/test_model.py
+                    '''
+                }
+            }
+        }
     }
 }
