@@ -28,13 +28,6 @@ pipeline {
                 }
             }
         }
-        stage('Publish coverage report') {
-            steps {
-                script {
-                    recordCoverage tools: [cobertura(pattern: 'coverage.xml')]
-                }
-            }
-        }
         stage('Run Docker Container') {
             steps {
                 script {
