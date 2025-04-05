@@ -1,17 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Adjust Permissions') {
-            steps {
-                script {
-                    sh '''#!/bin/bash
-                    echo "Setting permissions for workspace directory..."
-                    sudo chown -R $(whoami) .
-                    sudo chmod -R 775 .
-                    '''
-                }
-            }
-        }
         stage('Prepare Environment') {
             steps {
                 script {
