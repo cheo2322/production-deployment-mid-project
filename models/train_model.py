@@ -8,12 +8,9 @@ import numpy as np
 movies = pd.read_csv(f"data/movie.csv")
 ratings = pd.read_csv(f"data/rating.csv")
 
-filtered_ratings = ratings[ratings['userId'].between(1, 20000)]
-
 scaler = MinMaxScaler()
-filtered_ratings.loc[:, 'rating'] = scaler.fit_transform(filtered_ratings[['rating']])
-
-ratings_with_titles = filtered_ratings.merge(movies, on='movieId')
+ratings.loc[:, 'rating'] = scaler.fit_transform(ratings[['rating']])
+ratings_with_titles = ratings.merge(movies, on='movieId')
 
 user_movie_matrix = ratings_with_titles.pivot_table(
     index='userId', columns='title', values='rating'
