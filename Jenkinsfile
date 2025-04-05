@@ -1,50 +1,37 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_HOST = "tcp://localhost:2375"
-    }
     stages {
-        stage('Checkout Code') {
+        stage('Prepare Environment') {
             steps {
-                checkout scm
+                script {
+                    sh '''#!/bin/bash
+                    echo "Setting up the environment..."
+                    python3 -m pip install -r requirements.txt
+                    python3 scripts/setup.py
+                    '''
+                }
             }
         }
-        stage('Setup') {
+        stage('Training Model') {
             steps {
-                sh '''#!/bin/bash
-                source /var/jenkins_home/.venv/bin/activate
-                python --version
-                python -m pip install --upgrade pip
-                pip install -r requirements.txt
-                deactivate
-                '''
+                script {
+                    sh '''#!/bin/bash
+                    echo "Training model..."
+                    python3 models/train_model.py
+                    '''
+                }
             }
         }
-        stage('Training') {
+        stage('Run Docker Container') {
             steps {
-                sh '''#!/bin/bash
-                source /var/jenkins_home/.venv/bin/activate
-                python models/train_model.py
-                deactivate
-                '''
-            }
-        }
-        stage('Testing') {
-            steps {
-                sh '''#!/bin/bash
-                source /var/jenkins_home/.venv/bin/activate
-                python models/test_model.py
-                deactivate
-                '''
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh '''#!/bin/bash
-                docker build -t flask-app .
-                docker run -d -p 5001:5001 flask-app
-                '''
+                script {
+                    sh '''#!/bin/bash
+                    echo "Building Docker image..."
+                    docker build -t my-app .
+                    docker run -d -p 5000:5000 my-app
+                    '''
+                }
             }
         }
     }
-}
+} 
