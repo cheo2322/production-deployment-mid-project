@@ -17,7 +17,7 @@ user_movie_matrix = ratings_with_titles.pivot_table(
 ).fillna(0)
 
 train_data, test_data = train_test_split(
-    user_movie_matrix.values, test_size=0.2, random_state=42
+    user_movie_matrix.values, test_size=0.15, random_state=42
 )
 
 knn = NearestNeighbors(metric='cosine', algorithm='brute')
