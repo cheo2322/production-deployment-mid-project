@@ -33,7 +33,7 @@ pipeline {
                     echo "Building Docker image..."
                     docker build -t flask-app .
                     echo "Running Docker container..."
-                    docker run -d -p 5000:5000 flask-app
+                    docker run -d -p 5000:5000 flask-app final-project
                     '''
                 }
             }
